@@ -84,8 +84,10 @@ $(document).ready(function(){
       $('.overlay, #modal, #thanks').fadeOut();
       $('form')[0].reset();  //сбросить значения интуп при закрытии окна
       $('body').css('overflow', '');
-      $('input').val("");  
-      $('input').removeClass("success");  
+      $('input').val('');  
+      $('input').removeClass('success');  
+      $('input').removeClass('error');
+      $('input').next('label').remove();
     });
 
     // Клик по фону, но не по окну
@@ -93,8 +95,10 @@ $(document).ready(function(){
       if ($(e.target).closest('#modal').length == 0) {
         $(this).fadeOut();	
         $('form')[0].reset(); 
-        $('input').val("");  
-        $('input').removeClass("success");  
+        $('input').val('');  
+        $('input').removeClass('success');  
+        $('input').removeClass('error');
+        $('input').next('label').remove();
       }
     });
  
@@ -102,9 +106,11 @@ $(document).ready(function(){
     $(document).on('keydown', function(e) {
       if (e.keyCode == 27) {
          $('.overlay, #modal, #thanks').fadeOut();
-         $('form').trigger('reset');
-         $('input').val("");  
-        $('input').removeClass("success");  
+         $('form')[0].reset(); 
+         $('input').val('');  
+        $('input').removeClass('success');  
+        $('input').removeClass('error'); 
+        $('input').next('label').remove(); 
       }
     });
 

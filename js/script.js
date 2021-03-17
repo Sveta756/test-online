@@ -118,6 +118,11 @@ $(document).ready(function(){
     jQuery.validator.addMethod("checkMaskPhone", function(value, element) {
       return /\+\d{1}\(\d{3}\)\d{3}-\d{4}/g.test(value); 
     });
+    
+    //запрет ввода цифр в имя
+    $('body').on('input', 'input[name=name]', function(){
+      this.value = this.value.replace(/[^a-zа-яё\s]/gi, '');
+    });
   
     //валидация формы в модальном окне
     $('.modal__form').validate({

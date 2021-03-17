@@ -95,6 +95,7 @@ $(document).ready(function(){
       if ($(e.target).closest('#modal').length == 0) {
         $(this).fadeOut();	
         $('form')[0].reset(); 
+        $('body').css('overflow', '');
         $('input').val('');  
         $('input').removeClass('success');  
         $('input').removeClass('error');
@@ -107,10 +108,11 @@ $(document).ready(function(){
       if (e.keyCode == 27) {
          $('.overlay, #modal, #thanks').fadeOut();
          $('form')[0].reset(); 
+         $('body').css('overflow', '');
          $('input').val('');  
-        $('input').removeClass('success');  
-        $('input').removeClass('error'); 
-        $('input').next('label').remove(); 
+         $('input').removeClass('success');  
+         $('input').removeClass('error'); 
+         $('input').next('label').remove(); 
       }
     });
 

@@ -3,25 +3,27 @@ $(document).ready(function(){
     //шапка при наведении
     $('.header').on('mouseenter', '.header__item', function() {
       $(this).find('.header__link').addClass('header__link_active');
-      $(this).addClass('header__item_act');
+      $(this).find('.header__item_act').fadeIn();
       $(`div[data-id="${$(this).attr('data-id')}"`).fadeIn();
     });
 
     //шапка при отведении
     $('.header').on('mouseleave', '.header__item', function() {
       $(this).find('.header__link').removeClass('header__link_active');
-      $(this).removeClass('header__item_act');
-      $(`div[data-id="${$(this).attr('data-id')}"`).fadeOut();
+      $(this).find('.header__item_act').fadeOut(50);
+      $(`div[data-id="${$(this).attr('data-id')}"`).fadeOut(100);
     });
 
     //мобильная версия шапки
     $('.header-mobile__hamburger').click(function() {
+      $('.header-mobile').css('background', '#fff');
       $(this).toggleClass('header-mobile__hamburger_active');
       if ($(this).hasClass('header-mobile__hamburger_active')) {
         $('body').css('overflow', 'hidden');
         $('.header-mobile__body').fadeIn();
       } else {
         $('.header-mobile__body').fadeOut();
+        $('.header-mobile').css('background', '');
         $('.header-mobile__head_active').removeClass('header-mobile__head_active').next().slideUp();
         $('.header-mobile__link_active').removeClass('header-mobile__link_active').next().slideUp();
         $('.active-link').removeClass('active-link').next().slideUp();
@@ -62,7 +64,7 @@ $(document).ready(function(){
       $('.header').css('background', 'rgb(255, 255, 255)');
 
 
-      if ($(window).width() <= '540'){ 
+      if ($(window).width() <= '599'){ 
         $('.products').css({
           height:  $(window).scrollTop() * 10
         });
@@ -70,36 +72,45 @@ $(document).ready(function(){
     });
 
     //растягивание блока 
-    $('.wrapper').css({
-      height: $(window).height() + 'px'
-    });
+    // $('.wrapper').css({
+    //   height: $(window).height() + 'px'
+    // });
 
     //модалка
     $('.main__btn').on('click', function() {
-      $('.overlay, #modal').fadeIn();
+      $('.overlay, #modal').fadeIn(300);
       $('body').css('overflow', 'hidden');
+      if ($(window).width() <= '599'){ 
+        $('.header-mobile').css('background', '#fff');
+        $('.header-mobile__wr').css({
+          'box-shadow': '0px 5px 5px rgba(0, 0, 0, 0.132586)'
+        });
+      }
     });
-    
-    //очистка формы 
+
     function clearForm() {
-      $('form')[0].reset();  
+      $('form')[0].reset(); 
       $('body').css('overflow', '');
       $('input').val('');  
       $('input').removeClass('success');  
       $('input').removeClass('error');
-      $('input').next('label').remove();  
+      $('input').next('label').remove();
+      $('.header-mobile').css('background', '');
+      $('.header-mobile__wr').css({
+        'box-shadow': ''
+      });
     }
-    
+  
     $('.modal__close').on('click', function() {
       $('.overlay, #modal, #thanks').fadeOut();
-        clearForm();
+      clearForm();
     });
 
     // Клик по фону, но не по окну
     $('.overlay').click(function(e) {
       if ($(e.target).closest('#modal').length == 0) {
         $(this).fadeOut();	
-         clearForm();
+        clearForm();
       }
     });
  
@@ -107,7 +118,7 @@ $(document).ready(function(){
     $(document).on('keydown', function(e) {
       if (e.keyCode == 27) {
          $('.overlay, #modal, #thanks').fadeOut();
-          clearForm();
+         clearForm();
       }
     });
 
@@ -118,7 +129,7 @@ $(document).ready(function(){
     jQuery.validator.addMethod("checkMaskPhone", function(value, element) {
       return /\+\d{1}\(\d{3}\)\d{3}-\d{4}/g.test(value); 
     });
-    
+
     //запрет ввода цифр в имя
     $('body').on('input', 'input[name=name]', function(){
       this.value = this.value.replace(/[^a-zа-яё\s]/gi, '');
@@ -144,16 +155,24 @@ $(document).ready(function(){
             phone: "Пожалуйста, введите свой номер телефона",
             email: {
               required: "Пожалуйста, введите свою почту",
-              email: "Неправильно введен адрес почты"
+              email: "Неверно заполнена почта"
             }
         },
         errorPlacement: function (error, element) {
           if (element.attr("type") == "checkbox") {
               return element.next('label').append(error);
           }
-      
             error.insertAfter($(element));
-        },
+
+          //расположение элемента ошибки
+          
+          var placement = $(element).data('error');
+          if (placement) {
+            $(placement).append(error);
+          } else {
+            error.insertAfter(element);
+          }
+        }
     });
 
     //при потере фокуса проходит проверка

@@ -11,7 +11,7 @@ $(document).ready(function(){
     $('.header').on('mouseleave', '.header__item', function() {
       $(this).find('.header__link').removeClass('header__link_active');
       $(this).find('.header__item_act').fadeOut(50);
-      $(`div[data-id="${$(this).attr('data-id')}"`).fadeOut(100);
+      $(`div[data-id="${$(this).attr('data-id')}"`).fadeOut(50);
     });
 
     //мобильная версия шапки
@@ -28,7 +28,8 @@ $(document).ready(function(){
         $('.header-mobile__link_active').removeClass('header-mobile__link_active').next().slideUp();
         $('.active-link').removeClass('active-link').next().slideUp();
         $('body').css('overflow', '');
-
+        $('.overlay, #modal, #thanks').fadeOut();
+        clearForm();
       }
     });
 
@@ -94,7 +95,7 @@ $(document).ready(function(){
       $('input').val('');  
       $('input').removeClass('success');  
       $('input').removeClass('error');
-      $('input').next('label').remove();
+      $('.err').children('label').remove();
       $('.header-mobile').css('background', '');
       $('.header-mobile__wr').css({
         'box-shadow': ''

@@ -21,6 +21,7 @@ $(document).ready(function(){
       if ($(this).hasClass('header-mobile__hamburger_active')) {
         $('body').css('overflow', 'hidden');
         $('.header-mobile__body').fadeIn();
+          clearForm();
       } else {
         $('.header-mobile__body').fadeOut();
         $('.header-mobile').css('background', '');
